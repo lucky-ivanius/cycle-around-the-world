@@ -1,0 +1,4 @@
+type: array
+items:
+  oneOf:
+    - $ref: 'spot.yaml'

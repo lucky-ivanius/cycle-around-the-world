@@ -1,0 +1,14 @@
+type: object
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  slug:
+    type: string
+  longitude:
+    type: number
+  latitude:
+    type: number
+  cyclingAccessibility:
+    type: boolean

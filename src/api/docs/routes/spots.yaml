@@ -1,0 +1,6 @@
+root:
+  get:
+    $ref: spots/get-spots.yaml
+get-spot-by-name:
+  get:
+    $ref: spots/get-spot-by-name.yaml

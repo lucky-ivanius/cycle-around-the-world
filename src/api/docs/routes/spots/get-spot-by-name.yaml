@@ -1,0 +1,24 @@
+summary: Get spot details by name
+tags:
+  - Spot
+description: Retrieve details of the selected spot.
+security:
+  - bearerAuth: []
+parameters:
+  - name: name
+    in: path
+    description: The name (slug) of the spot to retrieve
+    required: true
+    schema:
+      type: string
+responses:
+  '200':
+    description: Spot details
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/spot-detail.yaml'
+  '401':
+    $ref: '../../components/responses/unauthorized.yaml'
+  '404':
+    $ref: '../../components/responses/not-found.yaml'

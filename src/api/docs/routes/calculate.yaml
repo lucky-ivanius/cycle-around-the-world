@@ -1,0 +1,3 @@
+root:
+  post:
+    $ref: calculate/calculate-distance.yaml

@@ -1,0 +1,63 @@
+openapi: 3.0.3
+
+info:
+  title: Cycle Around The World - OpenAPI 3.0
+  contact:
+    email: luckzivanius@gmail.com
+  version: 0.0.0
+
+servers:
+  - url: 'https://{url}/api/v1'
+    description: Production Server
+    variables:
+      url:
+        default: 'prod.cycle.com'
+        description: Production URL
+  - url: 'http://localhost:{port}/api/v1'
+    description: Local Development Server
+    variables:
+      port:
+        default: '3001'
+        description: Development URL
+
+tags:
+  - name: Authentication
+  - name: Spot
+
+components:
+  schemas:
+    Error:
+      $ref: components/schemas/error.yaml
+
+    List:
+      $ref: components/schemas/list.yaml
+
+    Spot:
+      $ref: components/schemas/spot.yaml
+
+    SpotDetail:
+      $ref: components/schemas/spot-detail.yaml
+
+    Token:
+      $ref: components/schemas/token.yaml
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /auth/login:
+    $ref: routes/auth.yaml#/login
+
+  /spots:
+    $ref: routes/spots.yaml#/root
+  /spots/{name}:
+    $ref: routes/spots.yaml#/get-spot-by-name
+
+  /calculate:
+    $ref: routes/calculate.yaml#/root
+
+  /estimate:
+    $ref: routes/estimate.yaml#/root

@@ -1,0 +1,13 @@
+summary: Get estimation hours to the spots
+tags:
+  - Spot
+description: Get estimation hours from current user location to spot location.
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    $ref: '../../components/schemas/estimated-hours-arrived.yaml'
+  '401':
+    $ref: '../../components/responses/unauthorized.yaml'
+  '404':
+    $ref: '../../components/responses/not-found.yaml'

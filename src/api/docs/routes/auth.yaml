@@ -1,0 +1,3 @@
+login:
+  post:
+    $ref: auth/login.yaml

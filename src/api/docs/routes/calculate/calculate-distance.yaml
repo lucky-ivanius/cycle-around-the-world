@@ -1,0 +1,30 @@
+summary: Calculate spot distance
+tags:
+  - Spot
+description: Calculate distance between current user location to spot location.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          longitude:
+            type: number
+          latitude:
+            type: number
+          spot:
+            type: string
+          speed:
+            type: number
+          dailyCyclingHours:
+            type: number
+responses:
+  '200':
+    $ref: '../../components/schemas/distance.yaml'
+  '400':
+    $ref: '../../components/responses/bad-request.yaml'
+  '401':
+    $ref: '../../components/responses/unauthorized.yaml'
