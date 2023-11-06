@@ -1,5 +1,6 @@
 import {
   Guard,
+  GuardContainsOption,
   GuardLengthOption,
   GuardNumberOption,
   GuardOption,
@@ -54,6 +55,35 @@ describe('Guard', () => {
       };
 
       const result = Guard.required(option);
+
+      expect(result.success).toBeFalsy();
+      expect(result.getError()).toBe(option.errorMessage);
+    });
+  });
+
+  describe('contains', () => {
+    it('should pass for valid value', () => {
+      const option: GuardContainsOption<string> = {
+        arg: 'arg',
+        value: 'valid1',
+        validValues: ['valid1', 'valid2', 'valid3'],
+      };
+
+      const result = Guard.contains(option);
+
+      expect(result.success).toBeTruthy();
+      expect(result.getData()).toBe(option.value);
+    });
+
+    it('should fail for invalid value', () => {
+      const option: GuardContainsOption<string> = {
+        arg: 'arg',
+        value: 'valid4',
+        validValues: ['valid1', 'valid2', 'valid3'],
+        errorMessage: 'error',
+      };
+
+      const result = Guard.contains(option);
 
       expect(result.success).toBeFalsy();
       expect(result.getError()).toBe(option.errorMessage);

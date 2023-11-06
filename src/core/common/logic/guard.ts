@@ -6,6 +6,10 @@ export interface GuardOption<T = unknown> {
   errorMessage?: string;
 }
 
+export interface GuardContainsOption<T> extends GuardOption<T> {
+  validValues: Readonly<T[]>;
+}
+
 export interface GuardLengthOption extends GuardOption<string> {
   length: number;
 }
@@ -19,28 +23,38 @@ export interface GuardRegexOption extends GuardOption<string> {
 }
 
 export class Guard {
-  private static hasValue(value: unknown): boolean {
+  private static isValid(value: unknown): boolean {
     if (value === null || value === undefined || value === '') return false;
 
     return true;
   }
 
   public static required<T>(option: GuardOption<T>): Result<T> {
-    if (!this.hasValue(option.value))
+    if (!this.isValid(option.value))
       return Result.fail(option.errorMessage ?? `${option.arg} is required`);
 
     return Result.ok<T>(option.value as T);
   }
 
+  public static contains<T>(option: GuardContainsOption<T>): Result<T> {
+    if (
+      this.isValid(option.value) &&
+      !option.validValues.includes(option.value)
+    )
+      return Result.fail(option.errorMessage ?? `Invalid ${option.arg}`);
+
+    return Result.ok(option.value);
+  }
+
   public static match(option: GuardRegexOption): Result<string> {
-    if (this.hasValue(option.value) && !option.regex.test(option.value))
+    if (this.isValid(option.value) && !option.regex.test(option.value))
       return Result.fail(option.errorMessage ?? `Invalid ${option.arg}`);
 
     return Result.ok(option.value);
   }
 
   public static minLength(option: GuardLengthOption): Result<string> {
-    if (this.hasValue(option.value) && option.value.length < option.length)
+    if (this.isValid(option.value) && option.value.length < option.length)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must be at least ${option.length} characters`
@@ -50,7 +64,7 @@ export class Guard {
   }
 
   public static maxLength(option: GuardLengthOption): Result<string> {
-    if (this.hasValue(option.value) && option.value.length > option.length)
+    if (this.isValid(option.value) && option.value.length > option.length)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must not exceed ${option.length} characters`
@@ -60,7 +74,7 @@ export class Guard {
   }
 
   public static equal(option: GuardNumberOption): Result<number> {
-    if (this.hasValue(option.value) && option.value !== option.compareTo)
+    if (this.isValid(option.value) && option.value !== option.compareTo)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must be equal to ${option.compareTo}`
@@ -70,7 +84,7 @@ export class Guard {
   }
 
   public static notEqual(option: GuardNumberOption): Result<number> {
-    if (this.hasValue(option.value) && option.value === option.compareTo)
+    if (this.isValid(option.value) && option.value === option.compareTo)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must not be equal to ${option.compareTo}`
@@ -80,7 +94,7 @@ export class Guard {
   }
 
   public static greaterThan(option: GuardNumberOption): Result<number> {
-    if (this.hasValue(option.value) && option.value <= option.compareTo)
+    if (this.isValid(option.value) && option.value <= option.compareTo)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must be greater than ${option.compareTo}`
@@ -90,7 +104,7 @@ export class Guard {
   }
 
   public static greaterThanOrEqual(option: GuardNumberOption): Result<number> {
-    if (this.hasValue(option.value) && option.value < option.compareTo)
+    if (this.isValid(option.value) && option.value < option.compareTo)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must be greater than or equal to ${option.compareTo}`
@@ -100,7 +114,7 @@ export class Guard {
   }
 
   public static lessThan(option: GuardNumberOption): Result<number> {
-    if (this.hasValue(option.value) && option.value >= option.compareTo)
+    if (this.isValid(option.value) && option.value >= option.compareTo)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must be less than ${option.compareTo}`
@@ -110,7 +124,7 @@ export class Guard {
   }
 
   public static lessThanOrEqual(option: GuardNumberOption): Result<number> {
-    if (this.hasValue(option.value) && option.value > option.compareTo)
+    if (this.isValid(option.value) && option.value > option.compareTo)
       return Result.fail(
         option.errorMessage ??
           `${option.arg} must be less than or equal to ${option.compareTo}`
