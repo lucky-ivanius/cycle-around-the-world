@@ -37,7 +37,7 @@ export class CyclingPreference implements Entity<CyclingPreferenceProps> {
   }
 
   get estimatedHoursArrived() {
-    return this.props.estimatedHoursArrived;
+    return this.props.estimatedHoursArrived ?? 0;
   }
 
   private constructor(
