@@ -14,6 +14,15 @@ export class Name implements ValueObject<NameProps> {
     return this.props.value;
   }
 
+  get slug() {
+    return this.props.value
+      .toLowerCase() // Convert the name to lowercase
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/[^\w-]/g, '') // Remove non-word characters except hyphens
+      .replace(/-+/g, '-') // Replace multiple hyphens with a single hyphen
+      .trim(); // Trim any leading or trailing hyphens
+  }
+
   private constructor(private readonly props: NameProps) {
     Object.freeze(this);
   }
