@@ -6,5 +6,7 @@ export interface Credential {
 }
 
 export interface AuthService {
-  authenticate(credential: Credential): Promise<User>;
+  authenticate(credential: Credential): Promise<User | null>;
+  isUserExists(username: string): Promise<boolean>;
+  register(credential: Credential): Promise<void>;
 }
