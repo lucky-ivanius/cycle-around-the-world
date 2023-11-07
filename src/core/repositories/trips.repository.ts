@@ -3,7 +3,10 @@ import { Distance } from '../entities/trip/distance';
 import { Trip } from '../entities/trip/trip';
 
 export interface TripsRepository {
-  getTripToSpotByUserId(userId: UniqueId, spotId: UniqueId): Promise<Trip>;
+  getTripToSpotByUserId(
+    userId: UniqueId,
+    spotId: UniqueId
+  ): Promise<Trip | null>;
   save(trip: Trip): Promise<void>;
   setDistance(tripId: UniqueId, distance: Distance): Promise<void>;
 }
