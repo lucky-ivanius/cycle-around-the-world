@@ -1,3 +1,3 @@
 root:
   post:
-    $ref: calculate/calculate-distance.yaml
+    $ref: calculate/calculate-cycling-trip.yaml

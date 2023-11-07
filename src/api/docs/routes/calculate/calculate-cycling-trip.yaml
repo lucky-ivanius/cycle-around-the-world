@@ -1,7 +1,7 @@
-summary: Calculate spot distance
+summary: Calculate cycling trip
 tags:
   - Spot
-description: Calculate distance between current user location to spot location.
+description: Calculate cycling trip distance from current user location to spot location.
 security:
   - bearerAuth: []
 requestBody:
@@ -23,7 +23,11 @@ requestBody:
             type: number
 responses:
   '200':
-    $ref: '../../components/schemas/distance.yaml'
+    description: Calculated cycling trip detail
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/calculated-cycling-trip.yaml'
   '400':
     $ref: '../../components/responses/bad-request.yaml'
   '401':

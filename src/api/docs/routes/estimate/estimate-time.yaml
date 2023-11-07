@@ -1,0 +1,24 @@
+summary: Get estimation arrival date to the spots
+tags:
+  - Spot
+description: Get estimation arrival date from current user location to spot location.
+security:
+  - bearerAuth: []
+parameters:
+  - name: name
+    in: path
+    description: The name (slug) of the spot to retrieve
+    required: true
+    schema:
+      type: string
+responses:
+  '200':
+    description: Estimated arrival time
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/estimated-arrival-time.yaml'
+  '401':
+    $ref: '../../components/responses/unauthorized.yaml'
+  '404':
+    $ref: '../../components/responses/not-found.yaml'

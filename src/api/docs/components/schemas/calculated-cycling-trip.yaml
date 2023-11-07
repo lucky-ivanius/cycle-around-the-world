@@ -1,6 +1,4 @@
 type: object
 properties:
-  value:
+  distance:
     type: number
-  unit:
-    type: string
