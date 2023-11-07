@@ -4,6 +4,7 @@ import { Result } from '../../common/logic/result';
 
 export interface NameProps {
   value: string;
+  slug: string;
 }
 
 const MIN_NAME_LENGTH = 2;
@@ -15,12 +16,7 @@ export class Name implements ValueObject<NameProps> {
   }
 
   get slug() {
-    return this.props.value
-      .toLowerCase() // Convert the name to lowercase
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
-      .replace(/[^\w-]/g, '') // Remove non-word characters except hyphens
-      .replace(/-+/g, '-') // Replace multiple hyphens with a single hyphen
-      .trim(); // Trim any leading or trailing hyphens
+    return this.props.slug;
   }
 
   private constructor(private readonly props: NameProps) {
@@ -40,6 +36,7 @@ export class Name implements ValueObject<NameProps> {
         value: props.value,
         length: MAX_NAME_LENGTH,
       }),
+      Guard.required({ arg: 'Slug', value: props.slug }),
     ];
 
     const guardResult = Result.combine(...valueGuards);

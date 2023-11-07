@@ -6,7 +6,8 @@ describe('Name', () => {
   describe('create', () => {
     beforeEach(() => {
       props = {
-        value: 'name',
+        value: 'Name',
+        slug: 'name',
       };
     });
 
@@ -18,6 +19,7 @@ describe('Name', () => {
       const name = result.getData();
 
       expect(name.value).toEqual(props.value);
+      expect(name.slug).toEqual(props.slug);
     });
 
     it('should fail if name is null', () => {
@@ -63,6 +65,28 @@ describe('Name', () => {
       const result = Name.create(props);
 
       expect(props.value.length).toBeGreaterThan(50);
+      expect(result.success).toBeFalsy();
+    });
+
+    it('should fail if slug is null', () => {
+      props = {
+        ...props,
+        slug: null as unknown as string,
+      };
+
+      const result = Name.create(props);
+
+      expect(result.success).toBeFalsy();
+    });
+
+    it('should fail if slug is undefined', () => {
+      props = {
+        ...props,
+        slug: undefined as unknown as string,
+      };
+
+      const result = Name.create(props);
+
       expect(result.success).toBeFalsy();
     });
   });

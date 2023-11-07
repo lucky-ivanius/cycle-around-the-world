@@ -8,7 +8,7 @@ describe('Spot', () => {
   describe('create', () => {
     beforeEach(() => {
       props = {
-        name: Name.create({ value: 'name' }).getData(),
+        name: Name.create({ value: 'Name', slug: 'name' }).getData(),
         geolocation: Geolocation.create({
           longitude: 0,
           latitude: 0,
