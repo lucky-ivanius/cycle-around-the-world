@@ -53,6 +53,17 @@ describe('DayHours', () => {
       expect(result.success).toBeFalsy();
     });
 
+    it('should fail if day hours is equal to 0', () => {
+      props = {
+        ...props,
+        value: 0,
+      };
+
+      const result = DayHours.create(props);
+
+      expect(result.success).toBeFalsy();
+    });
+
     it('should fail if day hours is greater than 24', () => {
       props = {
         ...props,

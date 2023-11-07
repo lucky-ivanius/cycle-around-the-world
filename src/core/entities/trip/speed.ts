@@ -18,7 +18,7 @@ export class Speed implements ValueObject<SpeedProps> {
   public static create(props: SpeedProps): Result<Speed> {
     const propsGuards = [
       Guard.required({ arg: 'Cycling Speed (km/h)', value: props.value }),
-      Guard.greaterThanOrEqual({
+      Guard.greaterThan({
         arg: 'Cycling Speed (km/h)',
         value: props.value,
         compareTo: MIN_SPEED_VALUE,

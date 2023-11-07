@@ -52,5 +52,16 @@ describe('Speed', () => {
 
       expect(result.success).toBeFalsy();
     });
+
+    it('should fail if speed is equal to 0', () => {
+      props = {
+        ...props,
+        value: 0,
+      };
+
+      const result = Speed.create(props);
+
+      expect(result.success).toBeFalsy();
+    });
   });
 });

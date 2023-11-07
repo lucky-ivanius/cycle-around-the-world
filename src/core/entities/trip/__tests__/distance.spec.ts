@@ -1,4 +1,4 @@
-import { Distance, DistanceProps, DistanceUnit } from '../distance';
+import { Distance, DistanceProps } from '../distance';
 
 describe('Distance', () => {
   let props: DistanceProps;
@@ -7,7 +7,6 @@ describe('Distance', () => {
     beforeEach(() => {
       props = {
         value: 10,
-        unit: 'km',
       };
     });
 
@@ -36,39 +35,6 @@ describe('Distance', () => {
       props = {
         ...props,
         value: undefined as unknown as number,
-      };
-
-      const result = Distance.create(props);
-
-      expect(result.success).toBeFalsy();
-    });
-
-    it('should fail if distance unit is null', () => {
-      props = {
-        ...props,
-        unit: null as unknown as DistanceUnit,
-      };
-
-      const result = Distance.create(props);
-
-      expect(result.success).toBeFalsy();
-    });
-
-    it('should fail if distance unit is undefined', () => {
-      props = {
-        ...props,
-        unit: undefined as unknown as DistanceUnit,
-      };
-
-      const result = Distance.create(props);
-
-      expect(result.success).toBeFalsy();
-    });
-
-    it('should fail if distance unit is not a valid distance unit', () => {
-      props = {
-        ...props,
-        unit: 'this-is-invalid' as DistanceUnit,
       };
 
       const result = Distance.create(props);

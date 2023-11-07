@@ -19,7 +19,7 @@ export class DayHours implements ValueObject<DayHoursProps> {
   public static create(props: DayHoursProps): Result<DayHours> {
     const propsGuards = [
       Guard.required({ arg: 'Daily Cycling Hours', value: props.value }),
-      Guard.greaterThanOrEqual({
+      Guard.greaterThan({
         arg: 'Daily Cycling Hours',
         value: props.value,
         compareTo: MIN_DAY_HOURS_VALUE,

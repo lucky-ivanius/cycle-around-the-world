@@ -6,16 +6,15 @@ import { DayHours } from './day-hours';
 import { Distance } from './distance';
 import { Speed } from './speed';
 
-export interface CyclingPreferenceProps {
+export interface TripProps {
   userId: UniqueId;
   spotId: UniqueId;
   cyclingSpeed: Speed;
   dailyCyclingHours: DayHours;
-  distance?: Distance;
-  estimatedHoursArrived?: number;
+  distanceInKilometers: Distance;
 }
 
-export class CyclingPreference implements Entity<CyclingPreferenceProps> {
+export class Trip implements Entity<TripProps> {
   get userId() {
     return this.props.userId;
   }
@@ -32,23 +31,16 @@ export class CyclingPreference implements Entity<CyclingPreferenceProps> {
     return this.props.dailyCyclingHours;
   }
 
-  get distance() {
-    return this.props.distance;
-  }
-
-  get estimatedHoursArrived() {
-    return this.props.estimatedHoursArrived ?? 0;
+  get distanceInKilometers() {
+    return this.props.distanceInKilometers;
   }
 
   private constructor(
-    private readonly props: CyclingPreferenceProps,
+    private readonly props: TripProps,
     public readonly id: UniqueId
   ) {}
 
-  public static create(
-    props: CyclingPreferenceProps,
-    id?: UniqueId
-  ): Result<CyclingPreference> {
+  public static create(props: TripProps, id?: UniqueId): Result<Trip> {
     const propsGuards = [
       Guard.required({ arg: 'User ID', value: props.userId }),
       Guard.required({ arg: 'Spot ID', value: props.spotId }),
@@ -60,22 +52,22 @@ export class CyclingPreference implements Entity<CyclingPreferenceProps> {
         arg: 'Daily Cycling Hours',
         value: props.dailyCyclingHours,
       }),
+      Guard.required({
+        arg: 'Distance (km)',
+        value: props.distanceInKilometers,
+      }),
     ];
 
     const guardResult = Result.combine(...propsGuards);
 
-    if (!guardResult.success) return guardResult as Result<CyclingPreference>;
+    if (!guardResult.success) return guardResult as Result<Trip>;
 
-    const cycling = new CyclingPreference(props, id ?? new UniqueId());
+    const trip = new Trip(props, id ?? new UniqueId());
 
-    return Result.ok(cycling);
+    return Result.ok(trip);
   }
 
-  public setDistance(distance: Distance) {
-    this.props.distance = distance;
-  }
-
-  public setEstimatedHoursArrived(value?: number) {
-    this.props.estimatedHoursArrived = value;
+  public updateDistance(distanceInKilometers: Distance) {
+    this.props.distanceInKilometers = distanceInKilometers;
   }
 }
