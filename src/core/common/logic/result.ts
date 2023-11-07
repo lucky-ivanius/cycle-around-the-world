@@ -1,5 +1,5 @@
 export class Result<TData> {
-  constructor(
+  protected constructor(
     public readonly success: boolean,
     private readonly data?: TData,
     private readonly error?: string
