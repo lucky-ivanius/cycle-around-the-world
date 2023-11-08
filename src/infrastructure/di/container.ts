@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { createClient } from '@redis/client';
 import { LoginUseCase } from '../../application/use-cases/auth/login/login.use-case';
-import { CalculateCyclingTripUseCase } from '../../application/use-cases/cycling/calculate-cycling-trip/calculate-cycling-trip.use-case';
-import { GetCyclingEstimatedTimeUseCase } from '../../application/use-cases/cycling/get-cycling-estimated-time/get-cycling-estimated-time.use-case';
+import { CalculateCyclingTripUseCase } from '../../application/use-cases/spots/calculate-cycling-trip/calculate-cycling-trip.use-case';
+import { GetCyclingEstimatedTimeUseCase } from '../../application/use-cases/spots/get-cycling-estimated-time/get-cycling-estimated-time.use-case';
 import { GetSpotDetailUseCase } from '../../application/use-cases/spots/get-spot-detail/get-spot-detail.use-case';
 import { GetSpotsUseCase } from '../../application/use-cases/spots/get-spots/get-spots.use-case';
 import { JwtTokenService } from '../auth/jwt-token.service';

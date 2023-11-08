@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GetCyclingEstimatedTimeUseCase } from '../../../../application/use-cases/cycling/get-cycling-estimated-time/get-cycling-estimated-time.use-case';
+import { GetCyclingEstimatedTimeUseCase } from '../../../../application/use-cases/spots/get-cycling-estimated-time/get-cycling-estimated-time.use-case';
 import { Controller } from '../../common/controller';
 
 export class GetCyclingEstimatedTimeController extends Controller {

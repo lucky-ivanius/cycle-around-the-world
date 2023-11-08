@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CalculateCyclingTripUseCase } from '../../../../application/use-cases/cycling/calculate-cycling-trip/calculate-cycling-trip.use-case';
+import { CalculateCyclingTripUseCase } from '../../../../application/use-cases/spots/calculate-cycling-trip/calculate-cycling-trip.use-case';
 import { Controller } from '../../common/controller';
 
 export class CalculateCyclingTripController extends Controller {

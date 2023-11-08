@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CalculateCyclingTripRequest } from '../../../../application/use-cases/cycling/calculate-cycling-trip/calculate-cycling-trip.dto';
+import { CalculateCyclingTripRequest } from '../../../../application/use-cases/spots/calculate-cycling-trip/calculate-cycling-trip.dto';
 import { Guard } from '../../../../core/common/logic/guard';
 import { Result } from '../../../../core/common/logic/result';
 import { Controller } from '../../common/controller';
