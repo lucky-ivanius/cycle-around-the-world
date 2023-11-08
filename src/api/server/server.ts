@@ -34,8 +34,8 @@ server
   .use(morgan('dev'));
 
 server.get('/', (req, res) => Controller.ok(res, { message: 'Hi 💕' }));
+
 server.use('/api/v1', v1Router);
-server.use('*', (req, res) => Controller.notFound(res));
 
 const port = apiConfig.port;
 
