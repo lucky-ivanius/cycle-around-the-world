@@ -7,5 +7,5 @@ export type Token = string;
 
 export interface TokenService {
   sign(claims: Claims, expiryHours?: number): Promise<Token>;
-  verify(token: Token): Promise<Claims>;
+  verify(token: Token): Promise<Claims | null>;
 }
