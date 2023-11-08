@@ -30,7 +30,7 @@ spotsRouter.post(
   async (req, res) => calculateCyclingTripController.execute(req, res)
 );
 
-spotsRouter.post(
+spotsRouter.get(
   '/:spotNameSlug/estimate',
   async (req, res, next) => authMiddleware.execute(req, res, next),
   async (req, res) => getCyclingEstimatedTimeController.execute(req, res)
