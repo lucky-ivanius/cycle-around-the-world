@@ -15,7 +15,8 @@
     "postinstall": "prisma generate"
   },
   "prisma": {
-    "schema": "src/infrastructure/database/prisma/schema.prisma"
+    "schema": "src/infrastructure/database/prisma/schema.prisma",
+    "seed": "ts-node src/infrastructure/database/prisma/seed.ts"
   },
   "license": "MIT",
   "devDependencies": {
