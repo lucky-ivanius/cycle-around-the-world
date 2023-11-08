@@ -41,7 +41,7 @@ export class GetSpotDetailUseCase
         longitude: spot.geolocation.longitude,
         latitude: spot.geolocation.latitude,
         cyclingAccessibility: spot.cyclingAccessibility,
-        distanceInKilometers: trip?.distanceInKilometers?.value,
+        distanceInKilometers: trip?.distanceInKilometers?.value ?? null,
       });
     } catch (error) {
       return new UnexpectedError(error);
