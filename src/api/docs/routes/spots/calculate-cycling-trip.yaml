@@ -4,6 +4,13 @@ tags:
 description: Calculate cycling trip distance from current user location to spot location.
 security:
   - bearerAuth: []
+parameters:
+  - name: name
+    in: path
+    description: The name (slug) of the spot
+    required: true
+    schema:
+      type: string
 requestBody:
   required: true
   content:

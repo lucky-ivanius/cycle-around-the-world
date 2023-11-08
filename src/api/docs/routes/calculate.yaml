@@ -1,3 +1,0 @@
-root:
-  post:
-    $ref: calculate/calculate-cycling-trip.yaml

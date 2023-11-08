@@ -4,3 +4,9 @@ root:
 get-spot-by-name:
   get:
     $ref: spots/get-spot-by-name.yaml
+calculate-cycling-trip:
+  post:
+    $ref: spots/calculate-cycling-trip.yaml
+get-cycling-estimated-time:
+  get:
+    $ref: spots/get-cycling-estimated-time.yaml

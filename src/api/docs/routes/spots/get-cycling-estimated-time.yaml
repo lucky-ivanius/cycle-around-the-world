@@ -7,7 +7,7 @@ security:
 parameters:
   - name: name
     in: path
-    description: The name (slug) of the spot to retrieve
+    description: The name (slug) of the spot
     required: true
     schema:
       type: string

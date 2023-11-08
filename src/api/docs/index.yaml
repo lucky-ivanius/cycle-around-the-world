@@ -55,9 +55,7 @@ paths:
     $ref: routes/spots.yaml#/root
   /spots/{name}:
     $ref: routes/spots.yaml#/get-spot-by-name
-
-  /calculate:
-    $ref: routes/calculate.yaml#/root
-
-  /estimate:
-    $ref: routes/estimate.yaml#/root
+  /spots/{name}/calculate:
+    $ref: routes/spots.yaml#/calculate-cycling-trip
+  /spots/{name}/estimate:
+    $ref: routes/spots.yaml#/get-cycling-estimated-time

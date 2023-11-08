@@ -4,17 +4,6 @@ tags:
 description: Retrieve a list of spot.
 security:
   - bearerAuth: []
-parameters:
-  - in: query
-    name: page
-    schema:
-      type: integer
-    description: Page number
-  - in: query
-    name: pageSize
-    schema:
-      type: integer
-    description: Items per page
 responses:
   '200':
     description: A list of spots

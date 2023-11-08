@@ -1,3 +1,0 @@
-root:
-  get:
-    $ref: estimate/estimate-time.yaml
