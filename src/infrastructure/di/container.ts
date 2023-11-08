@@ -26,6 +26,8 @@ import { CalculateCyclingTripValidation } from '../http/validations/spots/calcul
 export const prismaClient = new PrismaClient();
 export const redisClient = createClient();
 
+redisClient.connect();
+
 // Repositories
 export const prismaUsersRepository = new PrismaUsersRepository(prismaClient);
 export const prismaSpotsRepository = new PrismaSpotsRepository(prismaClient);
