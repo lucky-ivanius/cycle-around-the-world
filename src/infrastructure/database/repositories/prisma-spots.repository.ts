@@ -11,6 +11,7 @@ export class PrismaSpotsRepository implements SpotsRepository {
   public constructor(private readonly prismaClient: PrismaClient) {}
 
   private mapSpotToDomain(prismaSpot: PrismaSpot): Spot {
+    const id = new UniqueId(prismaSpot.id);
     const name = Name.create({
       value: prismaSpot.name,
       slug: prismaSpot.slug,
@@ -21,11 +22,14 @@ export class PrismaSpotsRepository implements SpotsRepository {
     }).getData();
     const cyclingAccessibility = prismaSpot.cyclingAccessibility;
 
-    const spot = Spot.create({
-      name,
-      geolocation,
-      cyclingAccessibility,
-    }).getData();
+    const spot = Spot.create(
+      {
+        name,
+        geolocation,
+        cyclingAccessibility,
+      },
+      id
+    ).getData();
 
     return spot;
   }

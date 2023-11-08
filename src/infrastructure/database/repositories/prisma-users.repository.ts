@@ -10,11 +10,15 @@ export class PrismaUsersRepository implements UsersRepository {
   public constructor(private readonly prismaClient: PrismaClient) {}
 
   private mapUserToDomain(prismaUser: PrismaUser): User {
+    const id = new UniqueId(prismaUser.id);
     const username = Username.create({ value: prismaUser.username }).getData();
 
-    const user = User.create({
-      username,
-    }).getData();
+    const user = User.create(
+      {
+        username,
+      },
+      id
+    ).getData();
 
     return user;
   }

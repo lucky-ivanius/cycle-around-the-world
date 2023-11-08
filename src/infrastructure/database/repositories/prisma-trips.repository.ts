@@ -12,6 +12,7 @@ export class PrismaTripsRepository implements TripsRepository {
   public constructor(private readonly prismaClient: PrismaClient) {}
 
   private mapTripToDomain(prismaTrip: PrismaTrip): Trip {
+    const id = new UniqueId(prismaTrip.id);
     const userId = new UniqueId(prismaTrip.userId);
     const spotId = new UniqueId(prismaTrip.spotId);
     const cyclingSpeed = Speed.create({
@@ -26,13 +27,16 @@ export class PrismaTripsRepository implements TripsRepository {
         }).getData()
       : undefined;
 
-    const trip = Trip.create({
-      userId,
-      spotId,
-      cyclingSpeed,
-      dailyCyclingHours,
-      distanceInKilometers,
-    }).getData();
+    const trip = Trip.create(
+      {
+        userId,
+        spotId,
+        cyclingSpeed,
+        dailyCyclingHours,
+        distanceInKilometers,
+      },
+      id
+    ).getData();
 
     return trip;
   }
@@ -61,15 +65,18 @@ export class PrismaTripsRepository implements TripsRepository {
         spotId: trip.spotId.toString(),
         cyclingSpeed: trip.cyclingSpeed.value,
         dailyCyclingHours: trip.dailyCyclingHours.value,
-        distanceInKilometers: trip.dailyCyclingHours.value,
+        distanceInKilometers: trip.distanceInKilometers?.value,
       },
       update: {
         cyclingSpeed: trip.cyclingSpeed.value,
         dailyCyclingHours: trip.dailyCyclingHours.value,
-        distanceInKilometers: trip.dailyCyclingHours.value,
+        distanceInKilometers: trip.distanceInKilometers?.value,
       },
       where: {
-        id: trip.id.toString(),
+        userId_spotId: {
+          userId: trip.userId.toString(),
+          spotId: trip.spotId.toString(),
+        },
       },
     });
   }
