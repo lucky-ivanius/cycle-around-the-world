@@ -15,7 +15,10 @@ import {
   CalculateCyclingTripRequest,
   CalculateCyclingTripResponse,
 } from './calculate-cycling-trip.dto';
-import { InaccessibleForCyclingError } from './calculate-cycling-trip.error';
+import {
+  InaccessibleForCyclingError,
+  InvalidGeolocationError,
+} from './calculate-cycling-trip.error';
 
 export class CalculateCyclingTripUseCase
   implements UseCase<CalculateCyclingTripRequest, CalculateCyclingTripResponse>
@@ -29,22 +32,6 @@ export class CalculateCyclingTripUseCase
   async execute(
     data: CalculateCyclingTripRequest
   ): Promise<CalculateCyclingTripResponse> {
-    const userGeolocationResult = Geolocation.create({
-      longitude: data.longitude,
-      latitude: data.latitude,
-    });
-    const cyclingSpeedResult = Speed.create({ value: data.cyclingSpeed });
-    const dailyCyclingHoursResult = DayHours.create({
-      value: data.dailyCyclingHours,
-    });
-
-    const dtoResult = Result.combine(
-      userGeolocationResult,
-      cyclingSpeedResult,
-      dailyCyclingHoursResult
-    );
-    if (!dtoResult.success) return dtoResult;
-
     try {
       const spot = await this.spotsRepository.getSpotByNameSlug(
         data.spotNameSlug
@@ -54,19 +41,34 @@ export class CalculateCyclingTripUseCase
       if (!spot.cyclingAccessibility)
         return new InaccessibleForCyclingError(spot.name.value);
 
+      const userGeolocation = Geolocation.create({
+        longitude: data.longitude,
+        latitude: data.latitude,
+      });
+
+      if (!userGeolocation.success) return new InvalidGeolocationError();
+
       const distanceInKilometers =
         await this.distanceCalculationService.calculateInKilometers(
-          userGeolocationResult.getData(),
+          userGeolocation.getData(),
           spot.geolocation
         );
 
       const userId = new UniqueId(data.userId);
 
+      const cyclingSpeed = Speed.create({ value: data.cyclingSpeed });
+      const dailyCyclingHours = DayHours.create({
+        value: data.dailyCyclingHours,
+      });
+
+      const propsResult = Result.combine(cyclingSpeed, dailyCyclingHours);
+      if (!propsResult.success) return propsResult;
+
       const tripResult = Trip.create({
         userId,
         spotId: spot.id,
-        cyclingSpeed: cyclingSpeedResult.getData(),
-        dailyCyclingHours: dailyCyclingHoursResult.getData(),
+        cyclingSpeed: cyclingSpeed.getData(),
+        dailyCyclingHours: dailyCyclingHours.getData(),
         distanceInKilometers,
       });
 

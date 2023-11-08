@@ -8,7 +8,14 @@ export class InaccessibleForCyclingError extends Result<unknown> {
   }
 }
 
+export class InvalidGeolocationError extends Result<unknown> {
+  constructor() {
+    super(false, null, `Invalid geolocation`);
+  }
+}
+
 export type CalculateCyclingTripError =
   | InaccessibleForCyclingError
+  | InvalidGeolocationError
   | NotFoundError
   | UnexpectedError;
