@@ -1,1 +1,1 @@
-console.log('Hi');
+import './api/server/server';
