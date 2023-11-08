@@ -20,7 +20,8 @@ export abstract class Controller {
   }
 
   public static unexpectedError(res: Response, err?: unknown) {
-    console.log(err);
+    if (err) console.error(err);
+
     return this.sendMessage(res, 500, `Unexpected error occured`);
   }
 
