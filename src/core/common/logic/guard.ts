@@ -24,7 +24,7 @@ export interface GuardRegexOption extends GuardOption<string> {
 
 export class Guard {
   private static isValid(value: unknown): boolean {
-    if (value === null || value === undefined || value === '') return false;
+    if (value === null || value === undefined) return false;
 
     return true;
   }
@@ -34,6 +34,33 @@ export class Guard {
       return Result.fail(option.errorMessage ?? `${option.arg} is required`);
 
     return Result.ok<T>(option.value as T);
+  }
+
+  public static isString(option: GuardOption<unknown>): Result<string> {
+    if (this.isValid(option.value) && typeof option.value !== 'string')
+      return Result.fail(
+        option.errorMessage ?? `${option.arg} must be a string`
+      );
+
+    return Result.ok(option.value as string);
+  }
+
+  public static isNumber(option: GuardOption<unknown>): Result<number> {
+    if (this.isValid(option.value) && typeof option.value !== 'number')
+      return Result.fail(
+        option.errorMessage ?? `${option.arg} must be a number`
+      );
+
+    return Result.ok(option.value as number);
+  }
+
+  public static isBoolean(option: GuardOption<unknown>): Result<boolean> {
+    if (this.isValid(option.value) && typeof option.value !== 'boolean')
+      return Result.fail(
+        option.errorMessage ?? `${option.arg} must be a boolean`
+      );
+
+    return Result.ok(option.value as boolean);
   }
 
   public static contains<T>(option: GuardContainsOption<T>): Result<T> {

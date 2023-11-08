@@ -46,15 +46,122 @@ describe('Guard', () => {
       expect(result.success).toBeFalsy();
       expect(result.getError()).toBe(option.errorMessage);
     });
+  });
 
-    it('should fail for empty string value', () => {
+  describe('isString', () => {
+    it('should pass for string value', () => {
       const option: GuardOption = {
         arg: 'arg',
-        value: '',
+        value: 'value',
+      };
+
+      const result = Guard.isString(option);
+
+      expect(result.success).toBeTruthy();
+      expect(result.getData()).toBe(option.value);
+    });
+
+    it('should fail for number value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: 1234,
         errorMessage: 'error',
       };
 
-      const result = Guard.required(option);
+      const result = Guard.isString(option);
+
+      expect(result.success).toBeFalsy();
+      expect(result.getError()).toBe(option.errorMessage);
+    });
+
+    it('should fail for boolean value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: false,
+        errorMessage: 'error',
+      };
+
+      const result = Guard.isString(option);
+
+      expect(result.success).toBeFalsy();
+      expect(result.getError()).toBe(option.errorMessage);
+    });
+  });
+
+  describe('isNumber', () => {
+    it('should pass for number value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: 1234,
+      };
+
+      const result = Guard.isNumber(option);
+
+      expect(result.success).toBeTruthy();
+      expect(result.getData()).toBe(option.value);
+    });
+
+    it('should fail for string value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: 'value',
+        errorMessage: 'error',
+      };
+
+      const result = Guard.isNumber(option);
+
+      expect(result.success).toBeFalsy();
+      expect(result.getError()).toBe(option.errorMessage);
+    });
+
+    it('should fail for boolean value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: false,
+        errorMessage: 'error',
+      };
+
+      const result = Guard.isNumber(option);
+
+      expect(result.success).toBeFalsy();
+      expect(result.getError()).toBe(option.errorMessage);
+    });
+  });
+
+  describe('isBoolean', () => {
+    it('should pass for boolean value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: false,
+      };
+
+      const result = Guard.isBoolean(option);
+
+      expect(result.success).toBeTruthy();
+      expect(result.getData()).toBe(option.value);
+    });
+
+    it('should fail for number value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: 1234,
+        errorMessage: 'error',
+      };
+
+      const result = Guard.isBoolean(option);
+
+      expect(result.success).toBeFalsy();
+      expect(result.getError()).toBe(option.errorMessage);
+    });
+
+    it('should fail for string value', () => {
+      const option: GuardOption = {
+        arg: 'arg',
+        value: 'value',
+        errorMessage: 'error',
+      };
+
+      const result = Guard.isBoolean(option);
 
       expect(result.success).toBeFalsy();
       expect(result.getError()).toBe(option.errorMessage);
