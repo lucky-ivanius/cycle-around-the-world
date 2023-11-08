@@ -4,6 +4,7 @@ import {
   Credential,
 } from '../../application/services/auth.service';
 import { HashingService } from '../../application/services/hashing.service';
+import { UniqueId } from '../../core/common/domain/unique-id';
 import { User } from '../../core/entities/user/user';
 import { Username } from '../../core/entities/user/username';
 
@@ -16,11 +17,15 @@ export class PrismaAuthService implements AuthService {
   ) {}
 
   private mapUserToDomain(prismaUser: PrismaUser): User {
+    const id = new UniqueId(prismaUser.id);
     const username = Username.create({ value: prismaUser.username }).getData();
 
-    const user = User.create({
-      username,
-    }).getData();
+    const user = User.create(
+      {
+        username,
+      },
+      id
+    ).getData();
 
     return user;
   }
