@@ -10,6 +10,7 @@ import { PrismaAuthService } from '../auth/prisma-auth.service';
 import { RedisSessionService } from '../auth/redis-session.service';
 import { HarversineDistanceCalculation } from '../calculation/harversine-distance-calculation.service';
 import { jwtConfig } from '../config/jwt.config';
+import { redisConfig } from '../config/redis.config';
 import { PrismaSpotsRepository } from '../database/repositories/prisma-spots.repository';
 import { PrismaTripsRepository } from '../database/repositories/prisma-trips.repository';
 import { PrismaUsersRepository } from '../database/repositories/prisma-users.repository';
@@ -24,7 +25,9 @@ import { CalculateCyclingTripValidation } from '../http/validations/spots/calcul
 
 // External
 export const prismaClient = new PrismaClient();
-export const redisClient = createClient();
+export const redisClient = createClient({
+  url: redisConfig.url,
+});
 
 redisClient.connect();
 
