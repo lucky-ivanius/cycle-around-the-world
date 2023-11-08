@@ -45,7 +45,7 @@ export class RedisSessionService implements SessionService {
 
     await this.redisClient.setEx(
       token,
-      expiryHours ?? this.defaultExpiryHours * 60,
+      (expiryHours ?? this.defaultExpiryHours) * 60 * 60,
       claims.sub
     );
 
