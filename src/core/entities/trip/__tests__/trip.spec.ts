@@ -14,7 +14,6 @@ describe('Trip', () => {
         spotId: new UniqueId(),
         cyclingSpeed: Speed.create({ value: 10 }).getData(),
         dailyCyclingHours: DayHours.create({ value: 2 }).getData(),
-        distanceInKilometers: Distance.create({ value: 10 }).getData(),
       };
     });
 
@@ -31,7 +30,7 @@ describe('Trip', () => {
       expect(trip.spotId).toEqual(props.spotId);
       expect(trip.cyclingSpeed).toEqual(props.cyclingSpeed);
       expect(trip.dailyCyclingHours).toEqual(props.dailyCyclingHours);
-      expect(trip.distanceInKilometers).toEqual(props.distanceInKilometers);
+      expect(trip.distanceInKilometers).toBeUndefined();
     });
 
     it('should fail if user id is null', () => {
@@ -115,28 +114,6 @@ describe('Trip', () => {
       props = {
         ...props,
         dailyCyclingHours: undefined as unknown as DayHours,
-      };
-
-      const result = Trip.create(props);
-
-      expect(result.success).toBeFalsy();
-    });
-
-    it('should fail if distance is null', () => {
-      props = {
-        ...props,
-        distanceInKilometers: null as unknown as Distance,
-      };
-
-      const result = Trip.create(props);
-
-      expect(result.success).toBeFalsy();
-    });
-
-    it('should fail if distance is undefined', () => {
-      props = {
-        ...props,
-        distanceInKilometers: undefined as unknown as Distance,
       };
 
       const result = Trip.create(props);

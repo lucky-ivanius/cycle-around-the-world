@@ -11,7 +11,7 @@ export interface TripProps {
   spotId: UniqueId;
   cyclingSpeed: Speed;
   dailyCyclingHours: DayHours;
-  distanceInKilometers: Distance;
+  distanceInKilometers?: Distance;
 }
 
 export class Trip implements Entity<TripProps> {
@@ -51,10 +51,6 @@ export class Trip implements Entity<TripProps> {
       Guard.required({
         arg: 'Daily Cycling Hours',
         value: props.dailyCyclingHours,
-      }),
-      Guard.required({
-        arg: 'Distance (km)',
-        value: props.distanceInKilometers,
       }),
     ];
 
