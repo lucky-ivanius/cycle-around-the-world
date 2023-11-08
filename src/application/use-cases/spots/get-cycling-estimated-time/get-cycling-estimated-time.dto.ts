@@ -8,6 +8,7 @@ export interface GetCyclingEstimatedTimeRequestDto {
 }
 
 export interface GetCyclingEstimatedTimeResponseDto {
+  estimatedArrivalHours: number;
   estimatedArrivalTimestamp: number;
 }
 

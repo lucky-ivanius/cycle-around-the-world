@@ -44,23 +44,25 @@ export class GetCyclingEstimatedTimeUseCase
         trip.distanceInKilometers.value / trip.cyclingSpeed.value;
 
       if (trip.dailyCyclingHours.value >= estimatedHours) {
-        const totalHours = estimatedHours * 60 * 60 * 1000;
-        const estimatedArrivalTimestamp = +new Date(
-          data.fromTimestamp + totalHours
-        );
+        const estimatedArrival = estimatedHours * 60 * 60 * 1000;
+        const estimatedArrivalTimestamp = new Date(
+          data.fromTimestamp + estimatedArrival
+        ).getTime();
 
         return Result.ok({
+          estimatedArrivalHours: estimatedArrival / 1000 / 60 / 60,
           estimatedArrivalTimestamp,
         });
       }
 
-      const totalDays =
+      const estimatedArrival =
         (estimatedHours / trip.dailyCyclingHours.value) * 24 * 60 * 60 * 1000;
-      const estimatedArrivalTimestamp = +new Date(
-        data.fromTimestamp + totalDays
-      );
+      const estimatedArrivalTimestamp = new Date(
+        data.fromTimestamp + estimatedArrival
+      ).getTime();
 
       return Result.ok({
+        estimatedArrivalHours: estimatedArrival / 1000 / 60 / 60,
         estimatedArrivalTimestamp,
       });
     } catch (error) {
