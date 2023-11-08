@@ -22,9 +22,7 @@ requestBody:
             type: number
           latitude:
             type: number
-          spot:
-            type: string
-          speed:
+          cyclingSpeed:
             type: number
           dailyCyclingHours:
             type: number

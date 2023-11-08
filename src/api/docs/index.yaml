@@ -41,6 +41,12 @@ components:
     Token:
       $ref: components/schemas/token.yaml
 
+    CalculatedCyclingTrip:
+      $ref: components/schemas/calculated-cycling-trip.yaml
+
+    EstimatedArrivalTime:
+      $ref: components/schemas/estimated-arrival-time.yaml
+
   securitySchemes:
     bearerAuth:
       type: http
