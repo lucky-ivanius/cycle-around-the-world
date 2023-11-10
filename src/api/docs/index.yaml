@@ -7,11 +7,11 @@ info:
   version: 0.0.0
 
 servers:
-  - url: 'https://{url}/api/v1'
+  - url: '{url}/api/v1'
     description: Production Server
     variables:
       url:
-        default: 'prod.cycle.com'
+        default: 'http://ec2-54-169-172-202.ap-southeast-1.compute.amazonaws.com:3001'
         description: Production URL
   - url: 'http://localhost:{port}/api/v1'
     description: Local Development Server

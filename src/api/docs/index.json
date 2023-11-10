@@ -1,0 +1,422 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Cycle Around The World - OpenAPI 3.0",
+    "contact": {
+      "email": "luckzivanius@gmail.com"
+    },
+    "version": "0.0.0"
+  },
+  "servers": [
+    {
+      "url": "{url}/api/v1",
+      "description": "Production Server",
+      "variables": {
+        "url": {
+          "default": "http://ec2-54-169-172-202.ap-southeast-1.compute.amazonaws.com:3001",
+          "description": "Production URL"
+        }
+      }
+    },
+    {
+      "url": "http://localhost:{port}/api/v1",
+      "description": "Local Development Server",
+      "variables": {
+        "port": {
+          "default": "3001",
+          "description": "Development URL"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication"
+    },
+    {
+      "name": "Spot"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Login with credentials",
+        "tags": [
+          "Authentication"
+        ],
+        "description": "Login using username and password.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/token"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          }
+        }
+      }
+    },
+    "/spots": {
+      "get": {
+        "summary": "Get a list of spots",
+        "tags": [
+          "Spot"
+        ],
+        "description": "Retrieve a list of spot.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of spots",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/list"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          }
+        }
+      }
+    },
+    "/spots/{name}": {
+      "get": {
+        "summary": "Get spot details by name",
+        "tags": [
+          "Spot"
+        ],
+        "description": "Retrieve details of the selected spot.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name (slug) of the spot to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Spot details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/spot-detail"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          }
+        }
+      }
+    },
+    "/spots/{name}/calculate": {
+      "post": {
+        "summary": "Calculate cycling trip",
+        "tags": [
+          "Spot"
+        ],
+        "description": "Calculate cycling trip distance from current user location to spot location.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name (slug) of the spot",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "longitude": {
+                    "type": "number"
+                  },
+                  "latitude": {
+                    "type": "number"
+                  },
+                  "cyclingSpeed": {
+                    "type": "number"
+                  },
+                  "dailyCyclingHours": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Calculated cycling trip detail",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/calculated-cycling-trip"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad-request"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          }
+        }
+      }
+    },
+    "/spots/{name}/estimate": {
+      "get": {
+        "summary": "Get estimation arrival date to the spots",
+        "tags": [
+          "Spot"
+        ],
+        "description": "Get estimation arrival date from current user location to spot location.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name (slug) of the spot",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estimated arrival time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/estimated-arrival-time"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/not-found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "$ref": "#/components/schemas/error"
+      },
+      "List": {
+        "$ref": "#/components/schemas/list"
+      },
+      "Spot": {
+        "$ref": "#/components/schemas/spot"
+      },
+      "SpotDetail": {
+        "$ref": "#/components/schemas/spot-detail"
+      },
+      "Token": {
+        "$ref": "#/components/schemas/token"
+      },
+      "CalculatedCyclingTrip": {
+        "$ref": "#/components/schemas/calculated-cycling-trip"
+      },
+      "EstimatedArrivalTime": {
+        "$ref": "#/components/schemas/estimated-arrival-time"
+      },
+      "token": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
+        }
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "spot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          }
+        }
+      },
+      "list": {
+        "type": "array",
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/spot"
+            }
+          ]
+        }
+      },
+      "spot-detail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "cyclingAccessibility": {
+            "type": "boolean"
+          }
+        }
+      },
+      "calculated-cycling-trip": {
+        "type": "object",
+        "properties": {
+          "distance": {
+            "type": "number"
+          }
+        }
+      },
+      "estimated-arrival-time": {
+        "type": "object",
+        "properties": {
+          "estimatedArrivalTimestamp": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "responses": {
+      "bad-request": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "example": {
+              "message": "Bad request"
+            }
+          }
+        }
+      },
+      "unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "example": {
+              "message": "Unauthorized"
+            }
+          }
+        }
+      },
+      "not-found": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            },
+            "example": {
+              "message": "Item (...) not found"
+            }
+          }
+        }
+      }
+    }
+  }
+}
