@@ -29,6 +29,8 @@ Production Server The production server URL is http://ec2-18-140-54-4.ap-southea
 
 The API follows the OpenAPI 3.0 standard. You can find the full OpenAPI specification in the [open api docs](/src/api/docs/index.json) file.
 
+The Swagger UI is served at http://ec2-18-140-54-4.ap-southeast-1.compute.amazonaws.com:3001/docs/v1.
+
 ### Authentication
 
 To authenticate, obtain a JWT token by making a POST request to /auth/login with valid credentials.
