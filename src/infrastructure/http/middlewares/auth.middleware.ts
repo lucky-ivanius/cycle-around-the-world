@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express-serve-static-core';
 import { SessionService } from '../../../application/services/session.service';
 import { Controller } from '../common/controller';
 import { Middleware } from '../common/middleware';
@@ -7,7 +7,7 @@ export interface AuthContext {
   userId: string;
 }
 
-declare module 'express' {
+declare module 'express-serve-static-core' {
   interface Request {
     auth?: AuthContext;
   }

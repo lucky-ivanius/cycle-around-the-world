@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from 'express-serve-static-core';
 import { UnexpectedError } from '../../../../application/common/errors/unexpected.error';
 import { GetSpotsUseCase } from '../../../../application/use-cases/spots/get-spots/get-spots.use-case';
 import { Controller } from '../../common/controller';

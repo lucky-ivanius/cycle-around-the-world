@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express-serve-static-core';
 import { CalculateCyclingTripRequest } from '../../../../application/use-cases/spots/calculate-cycling-trip/calculate-cycling-trip.dto';
 import { Guard } from '../../../../core/common/logic/guard';
 import { Result } from '../../../../core/common/logic/result';

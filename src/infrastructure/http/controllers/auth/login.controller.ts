@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from 'express-serve-static-core';
 import { UnexpectedError } from '../../../../application/common/errors/unexpected.error';
 import { InvalidCredentialError } from '../../../../application/use-cases/auth/login/login.error';
 import { LoginUseCase } from '../../../../application/use-cases/auth/login/login.use-case';
