@@ -11,7 +11,7 @@ servers:
     description: Production Server
     variables:
       url:
-        default: 'http://ec2-54-169-172-202.ap-southeast-1.compute.amazonaws.com:3001'
+        default: 'http://ec2-18-140-54-4.ap-southeast-1.compute.amazonaws.com:3001'
         description: Production URL
   - url: 'http://localhost:{port}/api/v1'
     description: Local Development Server
