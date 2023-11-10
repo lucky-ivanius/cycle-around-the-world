@@ -23,7 +23,7 @@ Visit http://localhost:3001/api/v1 to access the API locally.
 
 ### Production Server
 
-Production Server The production server URL is http://ec2-54-169-172-202.ap-southeast-1.compute.amazonaws.com:3001/api/v1.
+Production Server The production server URL is http://ec2-18-140-54-4.ap-southeast-1.compute.amazonaws.com:3001/api/v1.
 
 ### OpenAPI Specification
 
