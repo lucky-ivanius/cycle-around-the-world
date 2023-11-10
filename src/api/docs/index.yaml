@@ -11,7 +11,7 @@ servers:
     description: Production Server
     variables:
       url:
-        default: 'http://ec2-18-140-54-4.ap-southeast-1.compute.amazonaws.com:3001'
+        default: 'https://cycle-around-the-world.vercel.app'
         description: Production URL
   - url: 'http://localhost:{port}/api/v1'
     description: Local Development Server
