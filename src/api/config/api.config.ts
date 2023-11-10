@@ -4,5 +4,5 @@ config();
 
 export const apiConfig = {
   port: parseInt(process.env.PORT!),
-  origin: process.env.ORIGIN!,
+  origin: process.env.ORIGIN ?? '*',
 };
