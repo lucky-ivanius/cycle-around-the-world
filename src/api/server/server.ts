@@ -10,7 +10,6 @@ import { apiConfig } from '../config/api.config';
 
 import { Controller } from '../../infrastructure/http/common/controller';
 import { v1Router } from '../routes/api.router';
-import { docsRouter } from '../routes/docs.router';
 
 const corsOptions: CorsOptions = {
   origin: apiConfig.origin,
@@ -37,7 +36,6 @@ server
 server.get('/', (req, res) => Controller.ok(res, { message: 'Hi 💕' }));
 
 server.use('/api/v1', v1Router);
-server.use('/docs/v1', docsRouter);
 
 const port = apiConfig.port;
 
