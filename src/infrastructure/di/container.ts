@@ -8,6 +8,7 @@ import { GetSpotsUseCase } from '../../application/use-cases/spots/get-spots/get
 import { JwtTokenService } from '../auth/jwt-token.service';
 import { PrismaAuthService } from '../auth/prisma-auth.service';
 import { RedisSessionService } from '../auth/redis-session.service';
+import { RedisCacheService } from '../cache/redis-cache.service';
 import { HarversineDistanceCalculation } from '../calculation/harversine-distance-calculation.service';
 import { jwtConfig } from '../config/jwt.config';
 import { redisConfig } from '../config/redis.config';
@@ -31,11 +32,6 @@ export const redisClient = createClient({
 
 redisClient.connect();
 
-// Repositories
-export const prismaUsersRepository = new PrismaUsersRepository(prismaClient);
-export const prismaSpotsRepository = new PrismaSpotsRepository(prismaClient);
-export const prismaTripsRepository = new PrismaTripsRepository(prismaClient);
-
 // Services
 export const bcryptHashingService = new BcryptHashingService();
 export const prismaAuthService = new PrismaAuthService(
@@ -49,6 +45,18 @@ export const redisSessionService = new RedisSessionService(
 );
 export const harversineDistanceCalculation =
   new HarversineDistanceCalculation();
+export const redisCacheService = new RedisCacheService(redisClient);
+
+// Repositories
+export const prismaUsersRepository = new PrismaUsersRepository(prismaClient);
+export const prismaSpotsRepository = new PrismaSpotsRepository(
+  prismaClient,
+  redisCacheService
+);
+export const prismaTripsRepository = new PrismaTripsRepository(
+  prismaClient,
+  redisCacheService
+);
 
 // Use Cases
 export const loginUseCase = new LoginUseCase(

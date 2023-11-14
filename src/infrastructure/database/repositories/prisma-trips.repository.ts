@@ -5,11 +5,15 @@ import { Distance } from '../../../core/entities/trip/distance';
 import { Speed } from '../../../core/entities/trip/speed';
 import { Trip } from '../../../core/entities/trip/trip';
 import { TripsRepository } from '../../../core/repositories/trips.repository';
+import { CacheService } from '../../services/cache.service';
 
 type PrismaTrip = Prisma.TripGetPayload<object>;
 
 export class PrismaTripsRepository implements TripsRepository {
-  public constructor(private readonly prismaClient: PrismaClient) {}
+  public constructor(
+    private readonly prismaClient: PrismaClient,
+    private readonly cacheService: CacheService
+  ) {}
 
   private mapTripToDomain(prismaTrip: PrismaTrip): Trip {
     const id = new UniqueId(prismaTrip.id);
@@ -45,6 +49,20 @@ export class PrismaTripsRepository implements TripsRepository {
     userId: UniqueId,
     spotId: UniqueId
   ): Promise<Trip | null> {
+    const key = await this.cacheService.parseFromObjectValue({
+      userId: userId.toString(),
+      spotId: spotId.toString(),
+    });
+
+    const cachedTrip = await this.cacheService.get(key);
+
+    if (cachedTrip) {
+      const cachedTripObject: PrismaTrip =
+        await this.cacheService.parseToObjectValue(cachedTrip);
+
+      return this.mapTripToDomain(cachedTripObject);
+    }
+
     const trip = await this.prismaClient.trip.findFirst({
       where: {
         userId: userId.toString(),
@@ -54,11 +72,15 @@ export class PrismaTripsRepository implements TripsRepository {
 
     if (!trip) return null;
 
+    const cacheTrip = await this.cacheService.parseFromObjectValue(trip);
+
+    await this.cacheService.create(key, cacheTrip);
+
     return this.mapTripToDomain(trip);
   }
 
   async save(trip: Trip): Promise<void> {
-    await this.prismaClient.trip.upsert({
+    const updatedTrip = await this.prismaClient.trip.upsert({
       create: {
         id: trip.id.toString(),
         userId: trip.userId.toString(),
@@ -79,6 +101,15 @@ export class PrismaTripsRepository implements TripsRepository {
         },
       },
     });
+
+    const key = await this.cacheService.parseFromObjectValue({
+      userId: trip.userId.toString(),
+      spotId: trip.spotId.toString(),
+    });
+
+    const cacheTrip = await this.cacheService.parseFromObjectValue(updatedTrip);
+
+    await this.cacheService.create(key, cacheTrip);
   }
 
   async setDistance(tripId: UniqueId, distance: Distance): Promise<void> {
